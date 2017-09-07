@@ -1,0 +1,16 @@
+<md-content md-theme="cyan">
+    <md-nav-bar nav-bar-aria-label="navigation links">
+        <img src="{{logoImg}}" alt="Mockit logo" class="logo">
+        <div flex="50" layout layout-align="start end">
+            <md-button ui-sref="newpost" name="new" >new</md-button>
+            <md-button ui-sref="hot" name="main">hot</md-button>
+            <md-button ui-sref="main" name="top">top</md-button>
+        </div>
+        <div ng-if="permission" flex="50" layout layout-align="end end">
+            <md-button ui-sref="profile" name="profile">{{userService.user.username}}</md-button>
+            <md-button ui-sref="messages" name="messages">inbox</md-button>
+            <md-button ui-sref="preferences" name="preferences">preferences</md-button>
+            <md-button ng-click="userService.logout()" name="logout">logout</md-button>
+        </div>
+    </md-nav-bar>
+</md-content>
