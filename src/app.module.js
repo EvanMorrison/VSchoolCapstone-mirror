@@ -1,7 +1,7 @@
 
 import './style.scss';
-import './authentication/auth.module';
-// import angular from 'angular';
+// import './authentication/auth.module';
+
 
 const app = angular.module('MockReddit', [
                                             'ngMaterial', 

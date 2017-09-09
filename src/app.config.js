@@ -1,13 +1,20 @@
 
 module.exports = (app) => {
 
+    
 
     app.config([
                     '$locationProvider',
                     '$stateProvider',
                     '$urlRouterProvider',
                     '$mdThemingProvider', 
-                    function ($locationProvider, $stateProvider, $urlRouterProvider, $mdThemingProvider) {
+                    function (
+                        $locationProvider, 
+                        $stateProvider, 
+                        $urlRouterProvider, 
+                        $mdThemingProvider) {
+                        
+                        
                         $locationProvider.html5Mode(true);
 
                         $urlRouterProvider.otherwise('/');
@@ -33,7 +40,7 @@ module.exports = (app) => {
                 controller: 'NewSubForumController'
             })
             .state( 'post', {
-                url: '/post/:id', 
+                url: 'post/:id', 
                 template: require('./templates/singlePost.html'),
                 controller: 'PostController'
             })
@@ -46,7 +53,17 @@ module.exports = (app) => {
                 url: '/sub/:id', 
                 template: require('./templates/subForumMain.html'),
                 controller: 'SubController'
-            });
+            })
+            .state('profile', {
+                url: '/userprofile',
+                template: require('./authentication/templates/profile.html'),
+                controller: 'AuthController'
+            })
+            
+
+
+        $mdThemingProvider.theme('default')
+            .primaryPalette('orange');
 
         $mdThemingProvider.theme('forms')
             .primaryPalette('blue-grey', {

@@ -38,15 +38,15 @@ module.exports = function () {
             user.facebook = {};
             user.facebookId = profile.id;
             user.facebook.accessToken = accessToken;
-
-            User.find({
+            console.log('now in facebook strategy ')
+            User.findOne({
                 facebookId: profile.id
             }, function (err, existingUser) {
                 if (err) {
                       return done(err);
                 }
                 else { 
-                    if (!existingUser.length) {
+                    if (!existingUser) {
                     console.log('saving new user ')
                     // if no user found with the facebook id, create one
                     var newUser = new User(user);
@@ -60,10 +60,11 @@ module.exports = function () {
                     });
                 } else {
                     
-                    console.log('user already exists', existingUser[0]);
+                    console.log('user already exists', existingUser);
                     // add the user to req
-                    req._passport.instance._userProperty = existingUser[0]
-                     return done(null, existingUser[0]);
+                    req._passport.instance._userProperty = existingUser;
+                    req.user = existingUser;
+                     return done(null, req);
                 }
             }});
         }

@@ -7,15 +7,27 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin');
 
 
 
-module.exports = ((env = {}) => {
+module.exports = (env = {}) => {
 
   const isProduction = env.production === true;
   
   return {
       entry: (() => {
         const entry = {
-          index: ['./src/app.module.js'],
-          vendor: ['./src/vendor.js']
+          index: [
+                    './src/app.module.js',
+                    './src/authentication/auth.module.js'
+          ],
+          vendor: [
+                      'angular',
+                      'angular-material',
+                      'angular-messages',
+                      '@uirouter/angularjs',
+                      'ng-file-upload',
+                      'angular-resource',
+                      'angular-cookies',
+                      './node_modules/angular-material/angular-material.scss',
+          ]
         };
         if (isProduction) return entry;
         else {
@@ -102,6 +114,12 @@ module.exports = ((env = {}) => {
           new ExtractTextPlugin({
             filename: '[name].[contenthash].css',
             disable: !isProduction
+          }),
+          new webpack.optimize.CommonsChunkPlugin({
+            name: 'vendor'
+          }),
+          new webpack.optimize.CommonsChunkPlugin({
+            name: 'runtime'
           })
         ];
 
@@ -109,13 +127,7 @@ module.exports = ((env = {}) => {
         if (isProduction) {
           pluginList.push(
             new CleanWebpackPlugin(['dist']),
-            new webpack.HashedModuleIdsPlugin(),
-            new webpack.optimize.CommonsChunkPlugin({
-              name: 'vendor'
-            }),
-            new webpack.optimize.CommonsChunkPlugin({
-              name: 'runtime'
-            }),
+            new webpack.HashedModuleIdsPlugin(),  
             new CompressionWebpackPlugin({
               asset: '[path].gz[query]',
               algorithm: 'gzip',
@@ -137,8 +149,6 @@ module.exports = ((env = {}) => {
 
       })() 
       
-        
-      
   }
 
-})();
+}

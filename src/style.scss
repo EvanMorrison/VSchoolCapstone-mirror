@@ -4,9 +4,14 @@ $fa-font-path: "~font-awesome/fonts";
                 Base Styles
 *****************************************/
 
+$steel-blue: steelblue;
+$facebook-dk: #3b5998;
+$facebook-lt: #8b9dc3;
+$google-red: #db3236;
+
 a {
     text-decoration: none;
-    color: steelblue;
+    color: $steel-blue;
     cursor: default;
 }
 
@@ -65,14 +70,11 @@ a {
 
 .md-nav-bar {
     padding-top: 1em;
-    height: 64px !important;
+    height: 84px !important;
     box-sizing: border-box;
 }
 
-button.md-button,
-a.md-button {
-    padding: 0 !important;
-}
+
 
 .md-nav-item button,
 .md-nav-item a {
@@ -85,9 +87,8 @@ a.md-button {
 }
 
 .logo {
-    height: 40px;
-    width: 60px;
-    margin-top: -12px;
+    height: 50px;
+    width: 70px;
     padding-left: .5em;
 }
 
@@ -143,8 +144,9 @@ side-bar label {
     transition: all ease 0.5s;
 }
 
-.aside {
-    margin: 1.15em;
+.sidebar {
+    float: right;
+    margin: 30px;
 }
 
 .drop-box,
@@ -158,7 +160,7 @@ md-select {
     background: #fff !important;
 }
 
-.aside md-toolbar {
+.sidebar md-toolbar {
     min-height: 40px;
     height: 40px;
 }
@@ -173,18 +175,49 @@ md-select {
     margin: .25em;
 }
 
+.login {
+    .facebook-btn,.google-btn {
+        display: block;
+        color: white;
+        margin: 6px auto;
+        width: 66%;
+
+    }
+    .facebook-btn {
+        margin-top: 15px;
+        background-color: $facebook-dk;
+        md-icon.fa-facebook {
+            color: white;
+        }
+        &:hover {
+            background-color:$facebook-lt !important;
+        }
+    }
+    .google-btn {
+        background-color: $google-red;
+        md-icon.fa-google {
+            color: white;
+        }
+        &:hover {
+            background-color:rgba($google-red,.5) !important;
+        }
+    }
+}
+
+
+
 .main-buttons .md-button {
     border-radius: 25px 0 25px 0 !important;
     padding: 0 !important;
 }
 
-.side-bar .vote,
-.side-bar .vote i {
+.sidebar .vote,
+.sidebar .vote i {
     max-height: 40px !important;
     max-width: 20px !important;
 }
 
-.side-bar .recent {
+.sidebar .recent {
     border: 1px solid #DDD;
     background: #eee;
     -webkit-border-radius: .25em;
@@ -203,19 +236,26 @@ md-select {
     padding: 0 !important;
 }
 
-.main .vote {
-    min-height: 89px;
-    max-width: 40px;
+.vote {
+    align-self: center;
+    i, span {
+        text-align: center;
+        color: #AAA;
+    }
 }
 
-.vote i,
-.vote span,
 .main .caption {
     color: #AAA;
+    font-size: .8em;
 }
 
-.main .caption {
-    font-size: .7em;
+.post {
+    .post-title {
+        margin: 0;
+        font-size: 1.2em;
+        font-weight: 700;
+        color: $steel-blue;
+    }
 }
 
 /****************************************

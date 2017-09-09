@@ -19,16 +19,47 @@ module.exports = function () {
         function (req, accessToken, refreshToken, profile, done) {
             var user = {}
 
-             var user = {};
+
+            console.log('google profile ', profile);
+            console.log('accessToken ', accessToken);
+            
             user.email = profile.emails[0].value;
             // user.image = profile._json.image.url;
             user.firstName = profile.name.givenName;
             user.lastName = profile.name.familyName;
             user.username = profile.name.givenName.slice(0,2) + profile.name.familyName.slice(0,3);
-            user.facebook = {};
-            user.facebookId = profile.id;
-            user.facebook.accessToken = accessToken;
+            user.google.accessToken = accessToken;
+            user.googleId = profile.id;
+            console.log('now in google strategy ')
+            User.findOne({
+                googleId: profile.id
+            }, function (err, existingUser) {
+                if (err) {
+                      return done(err);
+                }
+                else { 
+                    if (!existingUser) {
+                    console.log('saving new user ')
+                    // if no user found with the facebook id, create one
+                    var newUser = new User(user);
+                    newUser.save(function (err, savedUser) {
+                        if (err) {
+                            throw err;
+                        } else {
+                            req._passport.instance._userProperty = savedUser
+                            return done(null, savedUser);
+                        }
+                    });
+                } else {
+                    
+                    console.log('user already exists', existingUser);
+                    // add the user to req
+                    req._passport.instance._userProperty = existingUser;
+                    req.user = existingUser;
+                     return done(null, req);
+                }
+            }
+        })
 
-            done(null, profile)
-        }))
+    }))
 }

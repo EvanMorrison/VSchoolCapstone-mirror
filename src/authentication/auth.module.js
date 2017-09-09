@@ -1,8 +1,11 @@
-import angular from 'angular';
 
-(() => {
 
-    const app = angular.module('MockReddit.Auth', ['ui.router', 'ngAnimate']);
+    
+    const app = angular.module('MockReddit.Auth', [
+                                                    'ui.router', 
+                                                    'ngAnimate',
+                                                    'ngCookies'
+                                                ]);
 
         require('./controllers/logout')(app);
         require('./controllers/profile')(app);
@@ -17,22 +20,10 @@ import angular from 'angular';
             })
     }])
 
-    // Controller for the login/signup navbar
+    // Controller for the login/signup sidebar
     app.controller('AuthController', ["$scope", "UserService", function ($scope, UserService) {
         $scope.logoImg = require('../assets/logo.png');
-        $scope.facebookLogin = function () {
-            UserService.facebook()
-                .then(function (response) {
-                    console.log('controller response ', response);
-                })
-        }
-
-        $scope.googleLogin = function () {
-            UserService.google()
-                .then(function (response) {
-                    console.log('controller response ', response);
-                })
-        }
+        
 
         $scope.userService = UserService;
         $scope.permission = UserService.isAuthenticated();
@@ -53,21 +44,34 @@ import angular from 'angular';
     }]);
 
     // Set, Get and Remove Token for user authentication
-    app.service('TokenService', function () {
+    app.service('TokenService', ['$cookies', function ($cookies) {
         var userToken = 'token';
-        this.setToken = function (token) {
-            localStorage[userToken] = token;
-        }
+       // store the token in a cookie
+       this.setToken = function(token) {
+            $cookies.put(userToken, token);
+       }
 
-        this.getToken = function () {
-            // console.log(userToken)
-            return localStorage[userToken];
-        }
+       this.getToken = function() {
+           return $cookies.get('token');
+       }
 
-        this.removeToken = function () {
-            localStorage.removeItem(userToken);
-        }
-    });
+       this.removeToken = function() {
+           $cookies.remove('token');
+       }
+       
+        // this.setToken = function (token) {
+        //     localStorage[userToken] = token;
+        // }
+
+        // this.getToken = function () {
+        //     // console.log(userToken)
+        //     return localStorage[userToken];
+        // }
+
+        // this.removeToken = function () {
+        //     localStorage.removeItem(userToken);
+        // }
+    }]);
 
     // Service to handle user signup, login, and logout
     app.service('UserService', ["$rootScope", "$http", "$location", "TokenService", function ($rootScope, $http, $location, TokenService) {
@@ -87,10 +91,11 @@ import angular from 'angular';
     ///////////////////////////////////////
 
         // SIGNUP/LOGIN WITH FACEBOOK
-        this.facebook = function () {
+        this.facebookSignin = function () {
+            console.log('FB signin initiated ');
             return $http.get('/auth/facebook')
                 .then(function (response) {
-                    console.log('Userservice facebook res ', response)
+                    console.log('Userservice facebook response ', response)
                     this.user = response.data
                     return response.data;
                 }, function (error) {
@@ -187,8 +192,7 @@ import angular from 'angular';
     }]);
 
     // add the AuthInterceptor to the httpProvider settings. 
-    app.config(function ($httpProvider) {
+    app.config(['$httpProvider', function ($httpProvider) {
         $httpProvider.interceptors.push('AuthInterceptor');
-    });
+    }]);
 
-})();

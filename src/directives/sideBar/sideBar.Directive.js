@@ -27,6 +27,10 @@ module.exports = (app) => {
                     $mdDialog.hide();
                 };
 
+                $scope.facebookSignin = function() {
+                    UserService.facebookSignin();
+                }
+
                 $scope.login = function (user, form) {
 
                     UserService.login(user)
