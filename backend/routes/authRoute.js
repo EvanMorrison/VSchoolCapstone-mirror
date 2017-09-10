@@ -16,12 +16,10 @@ var jwt = require('jsonwebtoken');
 
 authRouter.route('/profile')
     .get(function (req, res) {
-        // console.log('profile route ', req)
-        console.log('profile req.user ', req.user)
-        console.log('profile req.authUser ', req.authUser)
-            // console.log('profile req.body ', req.body)
-        console.log('profile serializeuser ', req._passport.instance._userProperty)
-        var user = req._passport.instance._userProperty
+        User.findOne({_id: req.user._id }, function(err, user) {
+            if (err) res.status(500).json(err);
+            else res.status(200).json(user);
+        })
     
     })
 
@@ -34,7 +32,6 @@ authRouter.post('/verifyuser', function (req, res) {
             res.status(500).json(err)
         } else {
             // delete decoded.password;
-            console.log('decoded token payload ', decoded)
             res.send(decoded);
         }
     })
@@ -90,7 +87,6 @@ authRouter.post('/signup', function (req, res) {
 **********************************/
 
 authRouter.post('/login', function (req, res) {
-    console.log('login user ', req.body)
     User.findOne({
         username: req.body.username.toLowerCase()
     }, function (err, user) {
@@ -164,15 +160,13 @@ authRouter.get('/facebook/callback', passport.authenticate('facebook', {
 }), setTokenCookie);
 
 function setTokenCookie(req,res) {
-    console.log('setting token cookie for user', req.user);
     if (!req.user) return res.status(404).send({message: 'Something went wrong trying to signin with facebook', req: Object.keys(req)});
     var token = signToken(req.user, req.user.role);
     res.cookie('token', JSON.stringify(token));
     res.redirect('/');
 }
 
-function signToken(id) {
-    console.log('signing token')
+function signToken(user) {
     return jwt.sign(user.toObject(), config.db_secret, { expiresIn: '24h' });
 }
 

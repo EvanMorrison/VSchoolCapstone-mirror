@@ -27,9 +27,30 @@ module.exports = (app) => {
                     $mdDialog.hide();
                 };
 
-                $scope.login = function(user) {
+                $scope.login = function (user, form) {
                     
-                }
+                    UserService.login(user)
+                        .then(function (response) {
+                            if (response.status === 401 && response.statusText === 'Unauthorized') {
+                                $scope.message = response.data.message;
+                                $scope.loginError = true;
+                                $timeout(function () {
+                                    $scope.loginError = false;
+                                }, 3000);
+                            } else {
+                                $scope.user = {};
+                                form.$setValidity();
+                                form.$setPristine();
+                                form.$setUntouched();
+                                $scope.newUser = {};
+                                $scope.close();
+                                $scope.permission = UserService.isAuthenticated();
+                                console.log($scope.permission);
+                            }
+                            console.log('login ', response);
+                        })
+                };
+                    
 
                 $scope.signup = function (user) {
                     $scope.duplicate = false;

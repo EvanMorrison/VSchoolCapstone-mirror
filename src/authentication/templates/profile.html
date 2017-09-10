@@ -1,14 +1,19 @@
 <md-content>
-    <h3>Name: {{user.firstName}} {{user.lastName}}</h3>
+    <h3>Name: {{userService.user.firstName}} {{userService.user.lastName}}</h3>
     <ul>
-        <li> username: {{user.username}} </li>
-        <li> email: {{user.email}} </li>
+        <li> username: {{userService.user.username}} </li>
+        <li> email: {{userService.user.email}} </li>
         <li> 
-            <ul>Facebook:
-                <li ng-repeat="(key, val) in user.facebook">
-                    {{key}}: {{val}}   
-                </li> 
-            </ul>
+        <li>OAuth Account(s):
+                <ul>
+                    <li>
+                        facebook id: {{userService.user.facebookId}}
+                    </li>
+                    <li>
+                        google id: {{userService.user.googleId}}
+                    </li>
+                </ul>
+        </li>
         </li>
         
     </ul>

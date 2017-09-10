@@ -28,9 +28,7 @@
         $scope.userService = UserService;
         $scope.permission = UserService.isAuthenticated();
         $scope.userService.user = UserService.user || UserService.getUserFromToken();
-        console.log($scope.userService.user);
         $scope.$on('authenticate', function () {
-            console.log('auth')
             $scope.permission = UserService.isAuthenticated();
             if (UserService.isAuthenticated() && !UserService.user) {
                 $scope.UserService.getUserFromToken();
@@ -70,7 +68,6 @@
          * for it. Updates authentication status.
          */
         function updateAuthentication() {
-            console.log('update auth')
             $rootScope.$broadcast('authenticate');
         }
 
@@ -108,6 +105,7 @@
                 .then(function (response) {
                     TokenService.setToken(response.data.token);
                     self.user = response.data.user;
+                    self.user.name = self.user.firstName || self.user.username;
                     updateAuthentication();
                     return (response)
                 }, function (error) {
@@ -127,13 +125,16 @@
         };
 
         this.getUserFromToken = function () {
+            
             if (self.user) {
                 return self.user
             } else if (self.isAuthenticated()) {
                 return $http.post('/auth/verifyuser', {
-                        token: TokenService.getToken()
+                        token: TokenService.getToken().replace(/\"/g, '')
                     })
                     .then(function (response) {
+                        self.user = response.data;
+                        self.user.name = self.user.firstName || self.user.username;
                         return response.data
                     }, function (error) {
                         console.log('Error verifying loggedin user: ', error)
