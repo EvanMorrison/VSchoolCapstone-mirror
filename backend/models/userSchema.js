@@ -16,23 +16,29 @@ var userSchema = new Schema({
     username: {
         type: String,
         required: true,
-        unique: true,
+        // unique: true,
         lowercase: true
         //es_indexed: true
     },
     email: {
         type: String,
         required: true,
-        unique: true,
+        // unique: true,
         lowercase: true
     },
     password: {
         type: String,
-        required: true
+        // required: true
     },
     facebookId: String,
     facebook: {
         accessToken: String
+    },
+    googleId: String,
+    google: {
+        accessToken: String,
+        profile: {
+        }
     },
     isAdmin: {
         type: Boolean,

@@ -1,0 +1,73 @@
+{
+  "name": "mockreddit",
+  "version": "2.0.0",
+  "description": "forum",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --env.production --config webpack.config.js -p --progress --colors",
+    "dev": "webpack --config webpack.config.js --progress --colors && node server.js",
+    "start": "NODE_ENV=production PORT=3000 node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EvanMorrison/vschool-mockreddit.git"
+  },
+  "author": "Shan Miller Evan Morisson Susan Sico Agustin Vargas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/EvanMorrison/vschool-mockreddit/issues"
+  },
+  "homepage": "https://github.com/EvanMorrison/vschool-mockreddit#readme",
+  "dependencies": {
+    "@uirouter/angularjs": "^1.0.6",
+    "angular": "^1.6.6",
+    "angular-animate": "^1.6.6",
+    "angular-aria": "^1.6.6",
+    "angular-cookies": "^1.6.6",
+    "angular-material": "^1.1.5",
+    "angular-messages": "^1.6.6",
+    "angular-resource": "^1.6.6",
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.17.2",
+    "connect-flash": "^0.1.1",
+    "connect-multiparty": "^2.0.0",
+    "cookie-parser": "^1.4.3",
+    "elasticsearch": "^13.3.1",
+    "express": "^4.15.4",
+    "express-jwt": "^5.3.0",
+    "font-awesome": "^4.7.0",
+    "jsonwebtoken": "^8.0.0",
+    "method-override": "^2.3.9",
+    "moment": "^2.18.1",
+    "mongoosastic": "^4.3.0",
+    "mongoose": "^4.11.10",
+    "mongoose-deep-populate": "^3.0.0",
+    "ng-file-upload": "^12.2.13",
+    "passport": "^0.4.0",
+    "passport-facebook": "^2.1.1",
+    "passport-google-oauth": "^1.0.0",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.16",
+    "compression-webpack-plugin": "^1.0.0",
+    "connect-history-api-fallback": "^1.3.0",
+    "css-loader": "^0.28.7",
+    "extract-text-webpack-plugin": "^3.0.0",
+    "file-loader": "^0.11.2",
+    "html-webpack-plugin": "^2.30.1",
+    "morgan": "^1.8.2",
+    "node-sass": "^4.5.3",
+    "raw-loader": "^0.5.1",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.18.2",
+    "url-loader": "^0.5.9",
+    "webpack": "^3.5.6",
+    "webpack-dev-middleware": "^1.12.0",
+    "webpack-dev-server": "^2.7.1",
+    "webpack-hot-middleware": "^2.19.0"
+  }
+}

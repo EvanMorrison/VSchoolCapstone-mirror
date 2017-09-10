@@ -1,12 +1,20 @@
 # Dependency diretories
-node_modules/
+node_modules
 
 
 # environment config/authentication
 /backend/config.js
+.env 
 
 # OS generated files or directories
 .DS_Store
 
+
+assets
+dist
+
+
 .idea
 *.ignore
+*.log
+old.package.json

@@ -23,7 +23,6 @@ authRouter.route('/profile')
         console.log('profile serializeuser ', req._passport.instance._userProperty)
         var user = req._passport.instance._userProperty
     
-        res.redirect('http://localhost:8080/helloworld')
     })
 
 /*********************************
@@ -141,14 +140,25 @@ authRouter.get('/facebook', passport.authenticate('facebook', {
     scope: ['email']
 }));
 
-
 // handle the callback after facebook has authenticated the user
 authRouter.get('/facebook/callback', passport.authenticate('facebook', {
     session: false,
-    successRedirect: '/auth/profile',
-    failureRedirect: '/'
-}));
+    failureRedirect: '/',
+    // successRedirect: '/profile'
+}), setTokenCookie);
 
+function setTokenCookie(req,res) {
+    console.log('setting token cookie for user', req.user);
+    if (!req.user) return res.status(404).send({message: 'Something went wrong trying to signin with facebook', req: Object.keys(req)});
+    var token = signToken(req.user._id, req.user.role);
+    res.cookie('token', JSON.stringify(token));
+    res.redirect('/');
+}
+
+function signToken(id) {
+    console.log('signing token')
+    return jwt.sign({_id: id}, config.db_secret, { expiresIn: '24h' });
+}
 
 //////////////////////////////////////////////////
 ///                 GOOGLE                     ///
@@ -156,15 +166,14 @@ authRouter.get('/facebook/callback', passport.authenticate('facebook', {
 // route for Google authentication and login
 authRouter.get('/google/', passport.authenticate('google', {
     session: false,
-    scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']
+    scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile']
 }));
 
 
 authRouter.get('/google/callback', passport.authenticate('google', {
     session: false,
-    successRedirect: '/auth/profile',
     failureRedirect: '/'
-}))
+}), setTokenCookie);
 
 
 module.exports = authRouter;
