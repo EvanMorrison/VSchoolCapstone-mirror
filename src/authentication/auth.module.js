@@ -90,29 +90,18 @@
     ///             OAUTH               ///
     ///////////////////////////////////////
 
-        // SIGNUP/LOGIN WITH FACEBOOK
-        this.facebookSignin = function () {
-            console.log('FB signin initiated ');
-            return $http.get('/auth/facebook')
-                .then(function (response) {
-                    console.log('Userservice facebook response ', response)
-                    this.user = response.data
-                    return response.data;
-                }, function (error) {
-                    console.log('Userservice facebook error ', error);
-                })
+        // FACEBOO - due to CORS issues sign up/sign in is handled directly on the server and
+        // the auth token is saved using cookie storage.
+        // need function to retrieve the user info from the server using the cookie/token
+        this.facebook = function () {
+            
         }
 
-        // SIGNUP/LOGIN WITH GOOGLE - this is still developmental 
+        // GOOGLE - due to CORS issues sign up/sign in is handled directly on the server and
+        // the auth token is saved using cookie storage.
+        // need function to retrieve the user info from the server using the cookie/token
         this.google = function () {
-            return $http.get('/auth/google')
-                .then(function (response) {
-                    console.log('Userservice google res ', response)
-                    this.user = response.data
-                    return response.data;
-                }, function (error) {
-                    console.log('Userservice google error ', error);
-                })
+
         }
 
 

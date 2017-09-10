@@ -176,30 +176,33 @@ md-select {
 }
 
 .login {
-    .facebook-btn,.google-btn {
-        display: block;
-        color: white;
-        margin: 6px auto;
-        width: 66%;
+    .oauth-section {
+        margin: 15px 0;
+        .facebook-btn,.google-btn {
+            display: block;
+            color: white;
+            margin: 6px auto;
+            width: 66%;
 
-    }
-    .facebook-btn {
-        margin-top: 15px;
-        background-color: $facebook-dk;
-        md-icon.fa-facebook {
-            color: white;
         }
-        &:hover {
-            background-color:$facebook-lt !important;
+        .facebook-btn {
+            margin-top: 15px;
+            background-color: $facebook-dk;
+            md-icon.fa-facebook {
+                color: white;
+            }
+            &:hover {
+                background-color:$facebook-lt;
+            }
         }
-    }
-    .google-btn {
-        background-color: $google-red;
-        md-icon.fa-google {
-            color: white;
-        }
-        &:hover {
-            background-color:rgba($google-red,.5) !important;
+        .google-btn {
+            background-color: $google-red;
+            md-icon.fa-google {
+                color: white;
+            }
+            &:hover {
+                background-color:rgba($google-red,.5);
+            }
         }
     }
 }

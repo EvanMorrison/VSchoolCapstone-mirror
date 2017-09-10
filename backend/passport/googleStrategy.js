@@ -20,17 +20,15 @@ module.exports = function () {
             var user = {}
 
 
+            console.log('now in google strategy ')
             console.log('google profile ', profile);
             console.log('accessToken ', accessToken);
-            
+
             user.email = profile.emails[0].value;
-            // user.image = profile._json.image.url;
+            user.username = profile.emails[0].value;
             user.firstName = profile.name.givenName;
             user.lastName = profile.name.familyName;
-            user.username = profile.name.givenName.slice(0,2) + profile.name.familyName.slice(0,3);
-            user.google.accessToken = accessToken;
             user.googleId = profile.id;
-            console.log('now in google strategy ')
             User.findOne({
                 googleId: profile.id
             }, function (err, existingUser) {
@@ -46,8 +44,10 @@ module.exports = function () {
                         if (err) {
                             throw err;
                         } else {
+                            console.log('new user saved to mongo')
                             req._passport.instance._userProperty = savedUser
-                            return done(null, savedUser);
+                            req.user = savedUser;
+                            return done(null, req);
                         }
                     });
                 } else {

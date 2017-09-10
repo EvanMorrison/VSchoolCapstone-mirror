@@ -166,7 +166,7 @@ function signToken(id) {
 // route for Google authentication and login
 authRouter.get('/google/', passport.authenticate('google', {
     session: false,
-    scope: ['https://www.googleapis.com/auth/plus.login']
+    scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile']
 }));
 
 

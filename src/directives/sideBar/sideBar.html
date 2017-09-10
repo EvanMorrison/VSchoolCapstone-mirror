@@ -10,7 +10,8 @@
         </form>
 
         <div class="login" ng-show="!permission">
-            <span><small>Login or <a ng-click="showAuthForm()"><b>signup</b></a></small></span>
+            <md-divider></md-divider>
+            <span><small>Login or <a ng-click="showAuthForm()"><b>signup using email/password</b></a></small></span>
 
             <form name="loginForm" ng-submit="login(user, loginForm)" layout="column">
                 <div class="login" layout>
@@ -30,20 +31,25 @@
                 <md-button class="login-button md-raised md-primary" type="submit">login
                 </md-button>
             </form>
-            <a href="/auth/facebook" target="_self">
-                <md-button  
-                            class="md-raised facebook-btn"> 
-                    <md-icon class="fa fa-facebook fa-lg"></md-icon>
-                    Sign in with Facebook
-                </md-button>
-            </a>
-            <a href="/auth/google" target="_self">
-                <md-button  
-                            class="md-raised google-btn"> 
-                    <md-icon class="fa fa-google fa-lg"></md-icon>
-                    Sign in with Google
-                </md-button>
-            </a>
+            <div class="oauth-section">
+                <md-divider></md-divider>
+                <span class="oauth-title"><small>or Sign In / Sign Up with:</small></span>
+                <a href="/auth/facebook" target="_self">
+                    <md-button  
+                                class="md-raised facebook-btn"> 
+                        <md-icon class="fa fa-facebook fa-lg"></md-icon>
+                        Facebook
+                    </md-button>
+                </a>
+                <a href="/auth/google" target="_self">
+                    <md-button  
+                                class="md-raised google-btn"> 
+                        <md-icon class="fa fa-google fa-lg"></md-icon>
+                        Google
+                    </md-button>
+                </a>
+            </div>
+            <md-divider></md-divider>
             <md-content layout-margin>
             </md-content>
         </div>

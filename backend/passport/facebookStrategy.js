@@ -35,9 +35,7 @@ module.exports = function () {
             user.firstName = profile.name.givenName;
             user.lastName = profile.name.familyName;
             user.username = profile.name.givenName.slice(0,2) + profile.name.familyName.slice(0,3);
-            user.facebook = {};
             user.facebookId = profile.id;
-            user.facebook.accessToken = accessToken;
             console.log('now in facebook strategy ')
             User.findOne({
                 facebookId: profile.id
@@ -55,7 +53,8 @@ module.exports = function () {
                             throw err;
                         } else {
                             req._passport.instance._userProperty = savedUser
-                            return done(null, savedUser);
+                            req.user = savedUser;
+                            return done(null, req);
                         }
                     });
                 } else {
