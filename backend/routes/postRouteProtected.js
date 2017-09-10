@@ -115,7 +115,6 @@ postRouteProtected.route('/')
                 function (err, updatedPost) {
                     if (err) res.status(500).json(err);
                     else  {
-                        console.log('error is here ', updatedPost)
                         res.send(updatedPost);
                     }
                 });
