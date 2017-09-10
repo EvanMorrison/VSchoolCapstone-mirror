@@ -25,6 +25,22 @@ authRouter.route('/profile')
     
     })
 
+/**
+ * verify user from token
+ */
+authRouter.post('/verifyuser', function (req, res) {
+    jwt.verify((req.body.token), config.db_secret, function (err, decoded) {
+        if (err) {
+            res.status(500).json(err)
+        } else {
+            // delete decoded.password;
+            console.log('decoded token payload ', decoded)
+            res.send(decoded);
+        }
+    })
+})
+
+
 /*********************************
             SIGNUP ROUTE
 **********************************/
@@ -150,14 +166,14 @@ authRouter.get('/facebook/callback', passport.authenticate('facebook', {
 function setTokenCookie(req,res) {
     console.log('setting token cookie for user', req.user);
     if (!req.user) return res.status(404).send({message: 'Something went wrong trying to signin with facebook', req: Object.keys(req)});
-    var token = signToken(req.user._id, req.user.role);
+    var token = signToken(req.user, req.user.role);
     res.cookie('token', JSON.stringify(token));
     res.redirect('/');
 }
 
 function signToken(id) {
     console.log('signing token')
-    return jwt.sign({_id: id}, config.db_secret, { expiresIn: '24h' });
+    return jwt.sign(user.toObject(), config.db_secret, { expiresIn: '24h' });
 }
 
 //////////////////////////////////////////////////

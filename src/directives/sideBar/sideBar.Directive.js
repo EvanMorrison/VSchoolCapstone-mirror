@@ -27,6 +27,9 @@ module.exports = (app) => {
                     $mdDialog.hide();
                 };
 
+                $scope.login = function(user) {
+                    
+                }
 
                 $scope.signup = function (user) {
                     $scope.duplicate = false;
