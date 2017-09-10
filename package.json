@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --env.production --config webpack.config.js -p --progress --colors",
-    "dev": "webpack --config webpack.config.js --progress --colors && node server.js",
+    "dev": "NODE_ENV=development node server.js",
     "start": "NODE_ENV=production PORT=3000 node server.js"
   },
   "repository": {
