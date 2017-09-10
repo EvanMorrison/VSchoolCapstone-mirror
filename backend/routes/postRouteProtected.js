@@ -113,8 +113,11 @@ postRouteProtected.route('/')
                     new: true
                 },
                 function (err, updatedPost) {
-                    if (err) res.status(500).send(err);
-                    res.send(updatedPost);
+                    if (err) res.status(500).json(err);
+                    else  {
+                        console.log('error is here ', updatedPost)
+                        res.send(updatedPost);
+                    }
                 });
         })
         // there will not be a delete method

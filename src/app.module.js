@@ -14,7 +14,7 @@ const app = angular.module('MockReddit', [
 
 
 require('./app.config')(app);
-
+require('./components')(app);
 require('./controllers')(app);
 require('./directives')(app);
 require('./services')(app);

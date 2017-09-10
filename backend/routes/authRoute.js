@@ -140,6 +140,24 @@ authRouter.delete('/delete/:userId', function (req, res) {
     });
 })
 
+
+/**
+ * Functions to save Token to client cookie for OAUTH Signin
+ */
+
+function setTokenCookie(req,res) {
+    if (!req.user) return res.status(404).send({message: 'Something went wrong trying to signin with facebook', req: Object.keys(req)});
+
+    var token = signToken(req.user, req.user.role);
+    res.cookie('token', token);
+    res.redirect('/');
+}
+
+function signToken(user) {
+    return jwt.sign(user.toObject(), config.db_secret, { expiresIn: '24h' });
+}
+
+
 //////////////////////////////////////////////////
 ///                 FACEBOOK                   ///
 //////////////////////////////////////////////////
@@ -159,16 +177,7 @@ authRouter.get('/facebook/callback', passport.authenticate('facebook', {
     // successRedirect: '/profile'
 }), setTokenCookie);
 
-function setTokenCookie(req,res) {
-    if (!req.user) return res.status(404).send({message: 'Something went wrong trying to signin with facebook', req: Object.keys(req)});
-    var token = signToken(req.user, req.user.role);
-    res.cookie('token', JSON.stringify(token));
-    res.redirect('/');
-}
 
-function signToken(user) {
-    return jwt.sign(user.toObject(), config.db_secret, { expiresIn: '24h' });
-}
 
 //////////////////////////////////////////////////
 ///                 GOOGLE                     ///

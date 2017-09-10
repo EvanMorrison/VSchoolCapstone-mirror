@@ -22,8 +22,7 @@ module.exports = (app) => {
         $stateProvider
             .state('main', {
                 url: '/',
-                template: require('./templates/main.html'),
-                controller: 'MainController'
+                component: 'mainComponent'
             })
             .state( 'newpost', {
                 url: '/newpost', 
@@ -40,9 +39,8 @@ module.exports = (app) => {
                 controller: 'NewSubForumController'
             })
             .state( 'post', {
-                url: 'post/:id', 
-                template: require('./templates/singlePost.html'),
-                controller: 'PostController'
+                url: '/viewpost/:id',
+                component: 'postComponent'
             })
             .state( 'search', {
                 url: '/search/:keyword', 
@@ -50,7 +48,7 @@ module.exports = (app) => {
                 controller: 'SearchController'
             })
             .state( 'sub', {
-                url: '/sub/:id', 
+                url: '/sub/:name', 
                 template: require('./templates/subForumMain.html'),
                 controller: 'SubController'
             })

@@ -130,7 +130,7 @@
                 return self.user
             } else if (self.isAuthenticated()) {
                 return $http.post('/auth/verifyuser', {
-                        token: TokenService.getToken().replace(/\"/g, '')
+                        token: TokenService.getToken()
                     })
                     .then(function (response) {
                         self.user = response.data;
