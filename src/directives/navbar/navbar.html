@@ -7,7 +7,7 @@
             <md-button ui-sref="main" name="top">top</md-button>
         </div>
         <div ng-if="permission" flex="50" layout layout-align="end end">
-            <md-button ui-sref="profile" name="profile">{{userService.user.username}}</md-button>
+            <md-button ui-sref="profile" name="profile">{{userService.user.name}}</md-button>
             <md-button ui-sref="messages" name="messages">inbox</md-button>
             <md-button ui-sref="preferences" name="preferences">preferences</md-button>
             <md-button ng-click="userService.logout()" name="logout">logout</md-button>

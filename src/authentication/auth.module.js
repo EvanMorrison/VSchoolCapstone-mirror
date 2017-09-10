@@ -27,21 +27,18 @@
 
         $scope.userService = UserService;
         $scope.permission = UserService.isAuthenticated();
+        $scope.userService.user = UserService.user || UserService.getUserFromToken();
         $scope.$on('authenticate', function () {
-            console.log('auth')
             $scope.permission = UserService.isAuthenticated();
+            if (UserService.isAuthenticated() && !UserService.user) {
+                $scope.UserService.getUserFromToken();
+            }
         });
-        // Retrieve the logged-in user's' information after a page reload using the Authentication Token
-        // $scope.getUserFromToken = function () {
-        //     if (UserService.isAuthenticated()) {
-        //         UserService.getUserFromToken()
-        //             .then(function (response) {
-        //                 UserService.user = response;
-        //             });
-        //     }
-        // }();
+        
 
     }]);
+
+
 
     // Set, Get and Remove Token for user authentication
     app.service('TokenService', ['$cookies', function ($cookies) {
@@ -59,24 +56,12 @@
            $cookies.remove('token');
        }
        
-        // this.setToken = function (token) {
-        //     localStorage[userToken] = token;
-        // }
-
-        // this.getToken = function () {
-        //     // console.log(userToken)
-        //     return localStorage[userToken];
-        // }
-
-        // this.removeToken = function () {
-        //     localStorage.removeItem(userToken);
-        // }
     }]);
 
     // Service to handle user signup, login, and logout
     app.service('UserService', ["$rootScope", "$http", "$location", "TokenService", function ($rootScope, $http, $location, TokenService) {
         var self = this;
-        self.user = {};
+        self.user = null;
 
         /**
          * Broadcast event to scopes that are listening
@@ -90,7 +75,7 @@
     ///             OAUTH               ///
     ///////////////////////////////////////
 
-        // FACEBOO - due to CORS issues sign up/sign in is handled directly on the server and
+        // FACEBOOK - due to CORS issues sign up/sign in is handled directly on the server and
         // the auth token is saved using cookie storage.
         // need function to retrieve the user info from the server using the cookie/token
         this.facebook = function () {
@@ -120,6 +105,7 @@
                 .then(function (response) {
                     TokenService.setToken(response.data.token);
                     self.user = response.data.user;
+                    self.user.name = self.user.firstName || self.user.username;
                     updateAuthentication();
                     return (response)
                 }, function (error) {
@@ -138,23 +124,26 @@
             return !!TokenService.getToken();
         };
 
-        // this.getUserFromToken = function () {
-        //     if (this.user.email) {
-        //         return this.user
-        //     } else if (this.isAuthenticated()) {
-        //         return $http.post('/auth/verifyuser', {
-        //                 token: TokenService.getToken()
-        //             })
-        //             .then(function (response) {
-        //                 return response.data
-        //             }, function (error) {
-        //                 console.log('Error verifying loggedin user: ', error)
-        //                 $location.path('/');
-        //             })
-        //     } else {
-        //         return 'user not logged in';
-        //     }
-        // }
+        this.getUserFromToken = function () {
+            
+            if (self.user) {
+                return self.user
+            } else if (self.isAuthenticated()) {
+                return $http.post('/auth/verifyuser', {
+                        token: TokenService.getToken()
+                    })
+                    .then(function (response) {
+                        self.user = response.data;
+                        self.user.name = self.user.firstName || self.user.username;
+                        return response.data
+                    }, function (error) {
+                        console.log('Error verifying loggedin user: ', error)
+                        $location.path('/');
+                    })
+            } else {
+                return 'user not logged in';
+            }
+        }
 
     }]);
 

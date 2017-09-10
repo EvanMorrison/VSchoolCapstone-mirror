@@ -76,9 +76,10 @@ module.exports = (app) => {
             return $http.put("api/post/" + postID, post)
 
                 .then(function(response) {
-
                     console.log(response.data);
                     return response.data;
+                }, function(err) {
+                    console.log('error updating post ', err)
                 });
         };
 

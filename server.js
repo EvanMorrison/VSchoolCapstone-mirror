@@ -36,7 +36,7 @@ mongoose.connection.on('disconnected', function () {
 
 // Create Server
 const app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '10mb'}));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(logger("dev"));
 // app.use(methodOverride());
